@@ -3,6 +3,7 @@
 A sokoban solver written in Java (some older version).
 
 Inluded in the project is an older version of Ysokoban which is excellent for visually playing a solution as a macro.
+
 http://ygp.orgfree.com/pgms/ysokoban_1_620.zip
 
 ------------------------------------------
