@@ -5,7 +5,7 @@ A sokoban solver written in Java (some older version).
 Inluded in the project is an older version of Ysokoban which is excellent for visually playing a solution as a macro.
 http://ygp.orgfree.com/pgms/ysokoban_1_620.zip
 
-------------------------------------------
+
 1/ Usage instructions
 1.1/ Solve example level.txt
 1.2/ Play a solution using Ysokoban
@@ -15,7 +15,7 @@ http://ygp.orgfree.com/pgms/ysokoban_1_620.zip
 2.2/ Strategy
 2.3/ Preprocessing
 2.4/ Optimizations
-------------------------------------------
+
 
 1/ Usage instructions
 
