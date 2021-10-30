@@ -1,0 +1,351 @@
+v 1.06: Possibility to get hint about all balls that could be
+	pushed to certain location.
+
+v 1.07: Option to auto save moves.
+
+v 1.08: Option to count moves and pushes as in XSokoban.
+	Keys to move to next/prev unsolved level.
+
+v 1.09: Redo. Pause in solution play back.
+
+v 1.10: Some changes in options menu. Now you can configure
+	all 3 mouse buttons and even mouse wheel.
+
+v 1.11: Some small changes and optimizations (invisible to user).
+
+v 1.12: Two additional counters (Box changes &
+	Straight line pushes) implemented.
+
+v 1.13: Option to disable mouse support (useful for kids).
+
+v 1.14: Supports following keywords in level files: Author, Title and Mouse.
+
+v 1.15: Small change - collection combo box resizes with dialog.
+
+v 1.16: Improved test for level equality.
+
+v 1.17: Bug fix in test for level equality (thanks to Shaun Green
+	for report and analysis of the problem).
+
+v 1.18: Bug fix (crashes on invalid levels).
+	Uninstall implemented, skins loaded by default.
+
+v 1.19: Support for "shelding steps" counter.
+
+v 1.20: Bug fix "shelding steps" counter is now reset to
+	zero at level start. (Thanks to V.Kindermans)
+
+v 1.21: Bug fix - now program correctly displays Author and title.
+v 1.22: Support for case insensitive lurd format of a solution (for input).
+	(Suggested by Ming)
+
+v 1.23: Bug fix. Corrected problem with colors in 256 colors video mode
+
+v 1.24: Support for compressed LURD format (for example: 5L3u77D)
+
+
+
+
+v 1.50: Ctrl-Home/End - jumps to first/last level in Collection.
+	10 collections (and users) are preserved, so you can quickly change them.
+	More than one solution is preserved (best 5 according to
+	five measuring values).
+	Player info files are changed again, now they are *.SokoInfo.
+	Old one (*.plr) is autoconverted (or imported).
+
+v 1.51: Now it is possible to paste text of a level
+	(or even entire collection) with clipboard.
+
+v 1.52: Hint: "show non pushable boxes".
+
+v 1.53: There is a button (Collection) to quickly select of a collection
+	(equivalent to combo box "*** select ***" item).
+
+
+v 1.60: Settings for optimizing push path are added (Push path optimization
+	in system menu). For more information read readme.txt
+
+v 1.61: Bug fix in push path finding (bug was introduced in version 1.50)
+
+v 1.62: Bug fix (thanks to Ming) in pasting a level from clipboard.
+
+v 1.63: Rotating and mirroring of a level during play
+	(suggested and inspired by Ming).
+
+v 1.64: Show and hide net in a level. Show squares outside of level in a
+	different color (optional). Default skins changed.
+	Old style skins are supported too.
+
+v 1.65: Go through box functionality (suggested and inspired by Ming).
+
+v 1.66: Bug fix in "Go through box" functionality. Support for filename of
+	a level as command line parameter. This functionality can be used
+	to specify that double clicking on XSB file should start YSokoban
+	with this file.
+
+v 1.67: Ctrl-L added - copy of level into clipboard (suggested by Ming).
+
+v 1.68: Bug fix in Ctrl-L (man is not displayed in interm positions).
+	Bug fix - incorrect calculation of shelding steps in some of
+	the saved solutions (thanks to Ming for reported bug).
+
+v 1.69: Better output in a clipboard for Ctrl-L. Collection button and
+	combo box are moved after level (now level is at leftmost position -
+	more convenient after resizing of a dialog).
+
+v 1.70: A small bugfix. Pressing ctrl, shift or ctrl-shift will not increase
+	animation speed anymore. Only replay speed will be affected.
+
+v 1.71: Bug fix. Negative values displayed when there are more than
+	32768 moves or Pushes. Thanks to Marek Letrab for the bug report.
+
+v 1.72: Bug fix in path finding using go through.
+
+v 1.73: Small enhancement. Now program will keep relative path (if possible)
+        to selected files (collection, skins, and player). I implement this
+        because I put program on USB drive and find out that sometimes this
+        USB drive is mounted on a different drive letter, so I have to change
+        options.
+
+v 1.74: Bug fix (bug introduced in ver 1.73). Now it is possible to open a
+        collection which is in a folder inside folder which contains exe.
+
+v 1.75: Added: button Instant Move (IM)
+
+v 1.76: Added: Option to show level size in title bar
+	Added: Mouse cursor change during ball (or man) drag
+
+v 1.77: Bug fix in path finding using go through.
+
+v 1.78: Added: Configurable size text shown in titlebar (requested by Ming).
+        Now %r - rows & %c - cols could be used to select how level size
+        should be shown, by default it is [ROWxCOL]
+
+v 1.79: New option introduced: Solution should have at least one push.
+        If on (by default) program will require at least one push to be
+        performed to consider level as solved (there are some levels
+        which are initially in solved state).
+
+v 1.80: Improvement of grid size calculations.
+        Selecting already selected ball will deselect it.
+
+v 1.81: Most option values are saved in .SokoInfo file (not in registry)
+
+v 1.82: Bug fix (thanks to Ming for the bug report). Incorrect read of levels
+        (could even hangup) if levels has a MAC format text file (CR only).
+v 1.83: Corrected Ctrl-L. Now it gives level as it is in collection file,
+        before level is in normalized form.
+
+v 1.84: Bug fix - some problems with levels more than 128 cols or rows
+        Added - export of levels to text file & import a text file with solutions
+
+v 1.85: Improved Instant Move performance. Only large levels with HUGE
+        (more than 200000 moves) solutions are affected.
+        Bug fixed - now YSokoban will correclty preserve HUGE solutions
+        (more than 200000 moves).
+        Add new option - not to save solution for levels with only 1 box.
+
+v 1.86: Bug fixed (thanks to Ming) in "Instant Move" screen refresh
+        (it seems like some boxes dissapear).
+
+v 1.87: Bug fixed (thanks to Ming) in "Instant Move" screen refresh when
+        show dircection change is off (it seems like some boxes dissapear).
+
+v 1.88: Few bugs fixed (thanks to Ming). Some flicking removed.
+        Correct behaviour when selecting unexisting collection from drop down list.
+        Go to next level on left click (always) when level is finished.
+
+v 1.89: Support for RLE packed levels and solutions. You can paste such
+        levels/solutions.
+        Ctrl-Shift-L will copy to clipboard packed level and solution.
+
+v 1.90: Change in RLE packing support. There is an option how to encode space
+        in RLE packed levels - with underscore '_' or with hyphen '-'.
+
+v 1.91: Default value to encode space is set to hyphen '-' (for RLE).
+        Problem fix - clicking on wall crashes version 1.90.
+        The problem dissapear after recompilation and relink,
+        so it is was not a bug but some other kind of a problem.
+
+v 1.92: Bug fix (thanks to Ming) when pasting leves RLE rules are not applied
+        anymore to other level attributes (like Title, Author and so on).
+
+v 1.93: Bug fix (thanks to Ming) now selection of first collection in combo box is OK.
+        Noramlly it sokoban does not change it becuse it is the current one, but
+        if there is a level pasted then it should be selected.
+
+v 1.94: Replace all '>' with ' ' when pasting level. The idea is to skip all '>'
+        characters which are inserted in reply emails (at the begining of a line).
+        Thanks to Ming for the requested feature.
+
+v 1.95: Replace all ' ' with '_' or '-' when copying level to clipboard if 'alt'
+        is pressed together with Ctrl-L. Which one (_ or -) will be used depends
+        on RLE packing level option. Thanks to Ming for the requested feature.
+
+v 1.96: Export of a solutions for current collection.
+
+v 1.97: Copy rest of solution to clipboard (ctrl-alt-C or ctrl-alt-Ins),
+        requested by Ming. Please see readme for explanation.
+
+v 1.98: Bug fix. Importing solutions work even with levels which has more balls
+        than targets or more targets than balls. In that case level is considered
+        solved if there are no empty targets or no balls outside targets
+        (depending on what is less: balls or targets).
+
+v 1.99: Bug fix (thanks to Ming). Importing solutions now works even
+        when solution is not in correct case.
+
+v 1.100: Bug fix (thanks to Ming). Corrected refresh in Instant Move mode (in some very rare cases).
+         Added %b & %t format specifiers in title.
+
+v 1.101: Implemented export of non solved levels.
+
+v 1.102: Bug fix (thanks to Ming). Some problems with finding path with go-through
+         (hint shows that moving is possible but does not do it actually).
+
+v 1.103: Few cosmetic changes. Added warning message if attempt to
+               save partial solution (because of possible internal error).
+
+v 1.104: Changes requested by Ming:
+               Added option not to save solution for incorrect levels (number of boxes != number of targets).
+               Added hot key ctrl-alt-left/right arrow which jumps to prev/next incorrect level
+
+v 1.105: Bug fix: import does not work.
+         Improvement: import will import solutions which does not start with "Solution:",
+         but they still should be one line.
+
+v 1.106: "Stay on top" implemented
+
+v 1.107: Support for hash code
+
+v 1.108: support for full RLE packing of solutions.
+
+v 1.109: F11 autmatically start default browser with appropriate URL,
+         to see level scores (if available).
+
+v 1.110: Added an option to put "Solution:" on a separate line (option is ON by default).
+         It was requested by Brain to make YSokoban compatible with common sokoban file format.
+
+v 1.111: Fixed minor bug. Title or Author was not correctly processed if there are digits and '#' in them.
+
+v 1.112: Added option to put solution on one line when using ctrl-L.
+
+v 1.113: ctrl-alt-V & ctrl-shift-alt-INS will paste solution playing step by step,
+         shift-F2 & alt-F2 will play solution step by step. (requested by Ming)
+
+v 1.114: Export solutions one level per file. Specify % (replaced by level number) in filename.
+
+v 1.115: Bugfix in 1.114 + enhancement % will split to many files
+         (containgin both level and solution), %% to many xsb and xht files.
+
+v 1.116: A minor problem fixed (thanks to Ming). Do not make a strict check when
+         importing level solutions (process them case insensitive).
+
+v 1.117: Trivial levels (those without boxes to move in normalized form) are considered solved during export. Requested by Ming.
+
+v 1.118: Solutions for trivial levels are also exported. It is possible to use F2 with trivial levels. Requested by Ming.
+v 1.119: Trivial levels are not exported as not solved levels.
+v 1.120: Bugfix finding solution for trivial level (level identified as trivial, but solution was wrong).
+v 1.121: Bugfix: no crash anymore when importing invalid solution file.
+v 1.122: Bugfix: stupid bug introduced in version 121 showing all levels as trivial.
+v 1.123: Do not save pasted solutions (assume they are not players solutions).
+v 1.124: Bugfix: hangup when pasting levels with comments containing big numbers like 20080408e (try to RLE decode them)
+v 1.125: added: 2 more slots for skins; show pushable is enhanced, now one can select pushable box by clicking on it with same mouse button (saves one mouse click); added mouse action "show pushable (always but man)" which will show places where man can go if clicked on it (otherwise it works like "show pushable").
+v 1.126: fixed bugs introduced in 1.125
+v 1.127: Playing solution can be paused with space and run again witch ctrl-space
+v 1.128: Scrollbars in playing area.
+v 1.129: Pressing left & right mouse buttons (or left button with shift) will act as select/move regardless of configuration.
+v 1.130: Optimized search for finding pushable boxes (which box can come ti this cell).
+v 1.131: Improved solution import (requested by Ming).
+v 1.132: Improved export (requested by Ming).
+v 1.135: Support for MF8 format (# + and @ are replaced with H x and a, and level starts with [soko=width,height] ends with [/soko]).
+v 1.136: New hotkey ctrl-M to support MF8 format. See readme for more details (search for MF8).
+
+v 1.200: YSokoban has support for localization.
+v 1.201: Bugfix. Added several hardcoded strings to language packs.
+v 1.202: Bugfix. Few strings now are autochanged during language change. YSokoban will not complain if language packs are newer version.
+v 1.203: ctrl-m (copy level to clipboard with MF8 format) now puts XSB part with '_' or '-' (depending on setting for RLE encoding).
+v 1.204: ctrl-m will not put info for file, author, start line ... (this info is not needed in MF-8)
+v 1.205: Bugfix. Now title is recalculated after every transformation (rotations are important), so that %r and %c are correctly displayed.
+v 1.206: Bugfix. If you have two solutions and replay the second one with F2, it will not auto switch anymore to the first one at the end.
+v 1.207: Bugfix. It seems that there were some other cases where selected solution is changed unexpectedly.
+v 1.208: Added ruler functionality. Activate/Deactivate with ctrl-R. (requested by Ming)
+v 1.209: Improved ruler functionality. ctrl-R / alt-R to activate letter/number ruller. (requested by Ming)
+v 1.210: Do not print ruler in MF8 format export to clipboard.
+v 1.211: Fixed bug in export all solutions, introduced in 1.208. Thanks to Harpreet Singh for the bug report.
+v 1.212: Option to use transformation for collection export (requested by Ming).
+v 1.213: Ctrl-L will copy original level and current position (requested by Ming).
+v 1.214: Bugfix in algorthm "Which box push to here", correctly finds all of them, but does not select nearest.
+v 1.215: Another bugfix in algorthm "Which box push to here".
+v 1.216: Small optimization in algorthm "Which box push to here".
+v 1.217: Two changes in mf8 export (ctrl-m): add title/author (if exist), remove solution (if any). Requested by Ming.
+v 1.218: Optimized pasting of level (pasting entire collection takes too long sometimes).
+v 1.219: Fixed bug in go-through algorithm, thanks to Ming.
+v 1.220: Remove '\' from pasted solution. Requested by Ming.
+
+v 1.321: Improved solution manager. Now one can specify the number of solutions which YSokoban should keep. This version will automatically convert .sokoInfo file to a new format and it will not be readable anymore by the old version (so please make a copy of your .sokoInfo files).
+v 1.322: Bugfix. "Best solution" indicator (letters PMICS for Push Move Inline Change Steps) are inccorect (namely I&C were swapped).
+v 1.323: Write solution of trivial levels to exported solutions and to clipboard (Ctrl-L).
+v 1.324: Bugfix: wrong display of pushes/moves for some solutions.
+v 1.325: Added bookmarks. Ctrl-digit will bookmark level. digit (alone) will jump to bookmarked level.
+v 1.326: Bugfix (bug introduced in 1.321). Solution import now works again.
+v 1.327: Added save/load solution state - ctrl-S/D.
+v 1.328: Bug fixes: scrolling hides last row/column walls (reported by Ming). Improved display of go-through boxes. Go through target with kbd (for last box) just before solving level (reported by Yang Chao).
+v 1.329: Improved scrollbar usage (do not show both if not needed), resize when hide/show ruler.
+v 1.330: Bug fix in MF8 export (ctrl-M).
+v 1.331: Bug fix: corrected letter marks for solutions ("PMICS"), fixed some crashes during level export (ctrl-L and export).
+v 1.332: Bug fix: sometimes crashes when replaying solution (or solved again). Bug introduced in 1.321. Thanks to Ming for bug report.
+v 1.333: Added dragdrop collection/skin to YSokoban. Requested by Ming.
+v 1.334: Added support for submitting solution for MF8 competition. Use Ctrl-Alt-F11 or Ctrl-Shift-F11 there should be SubmitSolution.url file in YSokoban folder. Requested by Chao Yang.
+v 1.335: Small modification for submit solution: config filename is SubmitSolution.cfg (instead of .url, because windows completly hides extension, .url is still accepted).
+v 1.336: Change in a way "File Selection Dialog" selects default folder - now it uses folder of last collection. Requested by Ming.
+v 1.337: Better handling of level edit box when entering level manually.
+v 1.338: Bugfix: Crashes sometimes in export level solutions when keeping more than one solutin. Thanks to Ming for bug report.
+v 1.339: Bugfix: Another rare crashes fixed (happens when changing level or player). Thanks to Ming for bug report.
+v 1.340: Bugfix: Crash if there is invalid level when importing file with solutions. Thanks to findus.
+v 1.341: Bugfix: Do not switch to first solution (if level has more than one) after replay. Thanks to Ming.
+v 1.342: Bugfix in go-through algorithm (handle double go-through boxes). Thanks to Ming.
+v 1.343: Bugfix in go-through algorithm (another complicated go-through box problem). Thanks to Ming for created test levels.
+v 1.344: Improved error message box during collection read/import. Now it has 2 buttons: OK - close dialog and report next error (if any) and Cancel - do not report errors anymore.
+v 1.345: Removed restriction for replay solution by steps (ctrl-shift-V) now works for all solutions (there was 25000 limit for historical reasons).
+v 1.346: Ctrl-I will paste moves instantly (without visualization). Requested by Ming.
+v 1.347: Correct handling of edit box with level number even if there are marked levels (with ctrl-number). Thanks to Ming.
+v 1.348: Support for sokojava in ctrl-M (for MF8 group). Requested by Ming.
+v 1.349: Support for pasting sokojava format (everything before "[param...]" and after "[/param" is ignored). Requested by Ming.
+v 1.350: Support for pasting multiple levels in sokojava format.
+
+v 1.500: Macro support added. Requested by Ming.
+
+v 1.600: Support for resizable skins. Requested by Ming.
+v 1.601: Added possibility to activate menu from Transform dialog. Because on Linux (with WINE) system menu is not accessable by YSokoban.
+v 1.602: Cosmetic change. Height of buttons (Collection, Macro, O, *, IM) increased to a normal size.
+v 1.603: Options dialog split into Skin & Options dialogs. Reason: dialog is too big to show on netbooks.
+v 1.604: Alt-L - copy to clipboard only original level. Requested by Ming.
+v 1.605: Option "Animate finish" added. Smooth centering of level. Ctrl-F11 - toggle status/menu bar.
+v 1.606: Added support for unsolvable levels. Red status when level found in unsolvable or if box != targets.
+         Fixed bug with forced moves in trivial levels. Fixed inconsistent export of a trivial solution to clipboard.
+         Implemented "repeat till failure" in macro, use * as a repeat couner, for example: *l or *(lddr) or *{macro}
+         Implemented "undo" in macro, use ~
+         Implmeneted push man position in macro. '+' - push, '@' - pop and goto pushed position, '#' - pop (and stay).
+         Change macro start on macro list. Left double click - run macro (was right click), Right click - run macro with * repeat counter.
+         Added support for strict check in macro, use &amp; instead of * for strict checks.
+         Added support for push/pull man position with relative offsets. Use [x,y] to add relative offsets (for example: +[1,2] will push current pos with relative offset, @[2, 3] will pop position and will add relative offset)
+         Silently skip 1 or 2 lines of * or # (it happens that there are such lines in some collections)
+         Use first appearance of Title/Author in a collection (not the last as it was up to now)
+         Y axis is bottom up in macro push/pop (+/@) parameters
+	 Bugfix: Immediately change skin if changed in skin dialog.
+v 1.607: Added: Selecting animation speed. Filter unsolvable during export.
+v 1.608: Added: Option for large level buttons
+v 1.609: Added: Option to export only best solutions.
+         Bugfix - crash when exporting some solutions. Happens sometimes when you have more than one solution per criteria.
+v 1.610: Bugfix - sometimes when there are more than one solution per level YSokoban shows incorrectly a marker for best moves solution.
+v 1.611: Bugfix - first push (if man is next to the box initially) is not counted as a shelding step (bug was introduced in version 1.500).
+v 1.612: Added: ctrl left mouse will select area and calculate boxes, targets and box on targets
+v 1.613: Bugfix - incorrect calculations (or even crashes) when selecting area with ctrl-left mouse which is outside level.
+v 1.614: Bugfix - error when saving solution for levels with more than 128 columns or lines
+v 1.615: Added: Show current cell coordinates at bottom right corner.
+v 1.616: Added: Option to go to next not solved level with left mouse click (right mouse goes to next level)
+v 1.617: Bugfix - some problems with fullscreen mode (F11) on multiple monitors. Fixed bug with hide/show status bar (ctrl-F11)
+v 1.618: Bugfix - do not calc as valid column spaces marked with '-' (trim right spaces outside level).
+v 1.619: Bugfix - Sometimes solved level is not played with F2. Bug introduced in 1.332 during code clean. Thanks to shengli03 for reporting problem.
+v 1.620: Added: Alt-Shift-L copy to clipboard level and title but spaces in level replaced with '-'.
