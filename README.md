@@ -1,6 +1,7 @@
 # sokoban-solver
 
-A sokoban solver written in Java (some older version).
+A sokoban solver written in Java (java version "1.8.0_191").
+
 
 Inluded in the project is an older version of Ysokoban which is excellent for visually playing a solution as a macro.
 
