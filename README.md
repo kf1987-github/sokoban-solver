@@ -4,16 +4,6 @@ A sokoban solver written in Java (java version "1.8.0_191").\
 Inluded in the project is an [older version of Ysokoban](http://ygp.orgfree.com/pgms/ysokoban_1_620.zip) which is excellent for visually playing a solution as a macro.
 
 ---
-# Usage instructions
-## Solve example level.txt
-## Play a solution using Ysokoban
-## Solve multiple levels in a for loop
-# Algorithm outline
-## Terminology
-## Strategy
-## Preprocessing
-## Optimizations
----
 
 # Usage instructions
 
