@@ -37,20 +37,20 @@ The output from this example code is recorded in the following files:\
 - sokoban position: the location of the sokoban player
 - target position: a location where a box should be pushed to in order to win the game
 - field: a location on which either the sokoban player or a box potentially can be located
-- free field: a field where no box is located
+- free field: a field where no box is located\
 (NOTE: the sokoban player can be located on a free field)
 - wall: a location which is not a field
 
 - game board: the collection of all fields
-- free island: the maximum collection of free fields adjacent directly or indirectly to a given free field
+- free island: the maximum collection of free fields adjacent directly or indirectly to a given free field\
 (NOTE: the game board contains 1 or multiple free islands)
-- sokoban island: the free island containing the sokoban position as the given free field for this free island
+- sokoban island: the free island containing the sokoban position as the given free field for this free island\
 (NOTE: we can uniquely represent a sokoban island by its sokoban position)
 
-- configuration: the set of all box positions, along with the sokoban position
+- configuration: the set of all box positions, along with the sokoban position\
 (NOTE: a configuration represents a solving step during the game)
 - root configuration: the configuration when beginning a sokoban level
-- top configuration: a configuration in which all box positions are on the target positions and the sokoban position is in 1 of potentially multiple free island
+- top configuration: a configuration in which all box positions are on the target positions and the sokoban position is in 1 of potentially multiple free island\
 (NOTE: a given sokoban level can have 1 or multiple end configurations)
 
 - root: the start configuration
@@ -62,7 +62,7 @@ From a given configuration we can create multiple (potentially 1 or none) new co
 Each potential movement of a box by the sokoban player will generate such a new configuration.\
 We can represent this process in a tree with a configuration on each tree node.
 
-This way we can explore the search space of the game both from the root and from the top.<
+This way we can explore the search space of the game both from the root and from the top.\
 From the top we generate a new configuration by pulling a box with the sokoban user, since reversing that proces results in a valid step in the game.
 
 Searching both from the root and from the top, we have multiple search trees during the solving process.\
