@@ -93,7 +93,7 @@ We also calculate all top configurations, by calculating all free islands of any
 
 We discard configurations in which boxes and walls form a square and for which the boxes involved in this square are not all on target positions.
 
-A configuration is only represented by the box positions and the sokoban position.<
+A configuration is only represented by the box positions and the sokoban position.\
 We consider 2 configurations identical if all box positions from both configurations match and if both sokoban positions are in the same free island.\
 This greatly reduces the search space and was the motivation for trying to implement this method.
 
