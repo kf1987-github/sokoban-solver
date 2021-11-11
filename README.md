@@ -99,9 +99,10 @@ This greatly reduces the search space and was the motivation for trying to imple
 
 Another crucial optimization is choosing a good heuristic for determlining if 2 configurations are considered identical.\
 To do this efficiently, the collection of leaf configurations is implemented in Java as a hashmap.\
-The hash of a configuration is the string obtained by concatenating 2 values with a dot in between:\
-on one hand the sum of horizontal coordinates of boxes and on the other hand the sum of vertical coordinates of boxes.\
+The hash of a configuration is a unique number obtained from 3 values: the sum of horizontal coordinates of boxes, the sum of vertical coordinates of boxes
+and the number of free fields in the sokoban island.\
 After some experimentation, this turned out to be a hash function by which we have a good ratio between,\
 at one end, the number of distinct hash values of all configurations in a search tree,\
 while on the other hand, the number of configurations with the same hash value.\
-Checking if 2 configurations are equal is at the core of the algorithm, so this hash function greatly determines the performance.
+Checking if 2 configurations are equal is at the core of the algorithm, so this hash function greatly determines the performance.\
+The key is to determine if 2 configurations differ, with very little computation.
