@@ -9,11 +9,10 @@ Inluded in the project is an [older version of Ysokoban](http://ygp.orgfree.com/
 
 ## Solve example level.txt
 
-From the command line at the project top directory, run from a command prompt:
+Run from a command prompt:
     java -cp bin Solver level.txt
 
-This will print the solver steps and the solution at the end, along with some statistics.\
-An example run is shown in the file [level.solution.example](level.solution.example).
+This will print the solver steps and the solution at the end, along with some statistics.
 
 ## Play a solution using Ysokoban
 
@@ -24,10 +23,10 @@ An example run is shown in the file [level.solution.example](level.solution.exam
 
 ## Solve multiple levels in a for loop
 
-Some example code is available in [command_line.txt](command_line.txt).\
-The output from this example code is recorded in the following files:\
-[auto52_solutions_-hashMap.txt](auto52_solutions_-hashMap.txt)\
-[handmade_solutions_-hashMap.txt](handmade_solutions_-hashMap.txt)
+Some example code is available in [commands.bat.txt](commands.bat.txt) and [commands.bash.txt](commands.bash.txt).\
+Some output from this example code is recorded in the following files:\
+[auto52_solutions.txt](auto52_solutions.txt)\
+[handmade_solutions.txt](handmade_solutions.txt)
 
 # Algorithm outline
 
