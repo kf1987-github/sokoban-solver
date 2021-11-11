@@ -16,6 +16,17 @@ public class Solver {
 
 		String filename = args[0];
 		System.out.println(filename);
+		
+		int maxRuntime = 300; // in seconden
+		if (args.length > 1){
+			String strMaxRuntime = args[1];
+			try {
+				maxRuntime = Integer.parseInt(strMaxRuntime);
+			} catch (NumberFormatException e){
+				maxRuntime = 300;
+			}
+		}
+		System.out.println(maxRuntime);
 
 		Scanner sc = null;
 		try {
@@ -74,21 +85,23 @@ public class Solver {
 			wHashC = wHashC + blokken.get(i).getCol();
 			wHashR = wHashR + blokken.get(i).getRow();
 		}
-		Configuratie wortelConfiguratie = new Configuratie(speler, blokken, null, "0", wHashC, wHashR);
+		int wHashValue = wHashC + (wHashR * spel.getHashBase());  // elandHash wordt berekend in DubbeleZoekboom
+		Configuratie wortelConfiguratie = new Configuratie(speler, blokken, null, wHashValue);
 		
 		int tHashC = 0;
 		int tHashR = 0;
 		for (int i = 0; i < eindVakken.size(); i++) {
 			tHashC = tHashC + eindVakken.get(i).getCol();
 			tHashR = tHashR + eindVakken.get(i).getRow();
-		}		
+		}
+		int tHashValue = tHashC + (tHashR * spel.getHashBase());  // elandHash wordt berekend in DubbeleZoekboom
 		ArrayList<Configuratie> topConfiguraties = new ArrayList<Configuratie>();
 		for(int i = 0; i < oplossingEilanden.size(); i++){
 			ArrayList<Vak> oplossingEiland = oplossingEilanden.get(i);
 			for (int j = 0; j < spelerEindposities.size(); j++) {
 				Vak kandidaatTopSpeler = spelerEindposities.get(j);
 				if(oplossingEiland.contains(kandidaatTopSpeler)){
-					Configuratie topConfiguratie = new Configuratie(kandidaatTopSpeler, eindVakken, null, "0", tHashC, tHashR);					
+					Configuratie topConfiguratie = new Configuratie(kandidaatTopSpeler, eindVakken, null, tHashValue);					
 					topConfiguraties.add(topConfiguratie);
 				}
 			}			
@@ -99,7 +112,7 @@ public class Solver {
 			spel.printConfiguratie(topConfiguraties.get(i));
 		}		
 		
-		DubbeleZoekboom dubbeleZoekboom = new DubbeleZoekboom(wortelConfiguratie, topConfiguraties, spel);
+		DubbeleZoekboom dubbeleZoekboom = new DubbeleZoekboom(wortelConfiguratie, topConfiguraties, spel, maxRuntime);
 		
 		// zoek oplossing
 		final long startTime;
@@ -108,6 +121,7 @@ public class Solver {
 		dubbeleZoekboom.zoekOplossing();
 		endTime = System.nanoTime();
 		System.out.println("Tijd: " + ((endTime - startTime) / 1000000) + " ms");
+		//System.err.println("Max JVM memory: " + Runtime.getRuntime().maxMemory());
 
 		if (dubbeleZoekboom.isOplossingGevonden()) {
 			Oplossing oplossing = dubbeleZoekboom.getOplossing();
@@ -120,7 +134,7 @@ public class Solver {
 		// --wortel
 		System.out.println("zoekboom wortel historiek aantal_keys: " + dubbeleZoekboom.getWortelHistoriek().keySet().size());
 		int wZoekboomSize = 0;
-		for (String key : dubbeleZoekboom.getWortelHistoriek().keySet()) {
+		for (int key : dubbeleZoekboom.getWortelHistoriek().keySet()) {
 			wZoekboomSize = wZoekboomSize + dubbeleZoekboom.getWortelHistoriek().get(key).size();	// aantal configuraties met hashwaarde==key
 		}
 		System.out.println("zoekboom wortel historiek grootte: " + wZoekboomSize);
@@ -130,7 +144,7 @@ public class Solver {
 		// --top
 		System.out.println("zoekboom top historiek aantal_keys: " + dubbeleZoekboom.getTopHistoriek().keySet().size());
 		int tZoekboomSize = 0;
-		for (String key : dubbeleZoekboom.getTopHistoriek().keySet()) {
+		for (int key : dubbeleZoekboom.getTopHistoriek().keySet()) {
 			tZoekboomSize = tZoekboomSize + dubbeleZoekboom.getTopHistoriek().get(key).size();	// aantal configuraties met hashwaarde==key
 		}
 		System.out.println("zoekboom top historiek grootte: " + tZoekboomSize);

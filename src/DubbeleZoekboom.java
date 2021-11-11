@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.lang.Math;
 
 public class DubbeleZoekboom {
 
@@ -9,11 +10,11 @@ public class DubbeleZoekboom {
 	private int wDiepte;
 	private int tDiepte;
 
-	private HashMap<String, ArrayList<Configuratie>> wHistoriek = new HashMap<String, ArrayList<Configuratie>>();
+	private HashMap<Integer, ArrayList<Configuratie>> wHistoriek = new HashMap<Integer, ArrayList<Configuratie>>();
 	private LinkedList<Configuratie> wBladConfiguratiesFIFO = new LinkedList<Configuratie>(); // te checken configuraties, stijgend volgens diepte
 	private ArrayList<Integer> wAantalConfiguraties_PerDiepte = new ArrayList<Integer>(); // wAantalConfiguraties_PerDiepte.get(<diepte>) = <aantal_per_diepte>
 
-	private HashMap<String, ArrayList<Configuratie>> tHistoriek = new HashMap<String, ArrayList<Configuratie>>();
+	private HashMap<Integer, ArrayList<Configuratie>> tHistoriek = new HashMap<Integer, ArrayList<Configuratie>>();
 	private LinkedList<Configuratie> tBladConfiguratiesFIFO = new LinkedList<Configuratie>(); // te checken configuraties, stijgend volgens diepte
 	private ArrayList<Integer> tAantalConfiguraties_PerDiepte = new ArrayList<Integer>(); // tAantalConfiguraties_PerDiepte.get(<diepte>) = <aantal_per_diepte>
 
@@ -21,14 +22,29 @@ public class DubbeleZoekboom {
 	private Configuratie topOplossingConfiguratie;
 
 	private boolean oplossingGevonden = false;
+	
+	// private int hashValue;  // hashValue = hashC + hashR*hashBase + hashEiland*hashBase^2
+	// with hashBase = max(rows,columns,blokken)^2 > rows*blokken, columns*blokken, rows*columns > hashC, hashR, hashEiland
+	// private int hashBase;
+	
+	private int maxRuntime;
 
 	// temp:
-	Spel spel;
+	private Spel spel;
 	int wLoops = 0;
 	int tLoops = 0;
 	int aantalVierkanten = 0;
+	int aantalWortelConfiguratiesReedsInHistoriek = 0;
+	int aantalTopConfiguratiesReedsInHistoriek = 0;
+	long startTimeNanos = 0;
+	long wStartNanos = 0;
+	long wTotalNanos = 0;
+	long wStartVierkantNanos = 0;
+	long wTotalVierkantNanos = 0;
+	long tStartNanos = 0;
+	long tTotalNanos = 0;
 
-	public DubbeleZoekboom(Configuratie wortelConfiguratie, ArrayList<Configuratie> topConfiguraties, Spel spel) {
+	public DubbeleZoekboom(Configuratie wortelConfiguratie, ArrayList<Configuratie> topConfiguraties, Spel spel, int maxRuntime) {
 		this.wDiepte = 0;
 		this.tDiepte = 0;
 
@@ -42,6 +58,8 @@ public class DubbeleZoekboom {
 
 		//temp:
 		this.spel = spel;
+		//this.hashBase = (int) Math.pow(Math.max(Math.max(spel.getRows(), spel.getCols()), spel.getBlokken().size()),2);
+		this.maxRuntime = maxRuntime;
 	}
 
 	public boolean isOplossingGevonden() {
@@ -65,11 +83,11 @@ public class DubbeleZoekboom {
 		return new Oplossing(wortelOplossingConfiguratie, topOplossingConfiguratie);
 	}
 
-	public HashMap<String, ArrayList<Configuratie>> getWortelHistoriek() {
+	public HashMap<Integer, ArrayList<Configuratie>> getWortelHistoriek() {
 		return wHistoriek;
 	}
 
-	public HashMap<String, ArrayList<Configuratie>> getTopHistoriek() {
+	public HashMap<Integer, ArrayList<Configuratie>> getTopHistoriek() {
 		return tHistoriek;
 	}
 
@@ -111,31 +129,71 @@ public class DubbeleZoekboom {
 			System.out.println("De wortelConfiguratie is een OPLOSSING !!!");
 			return;
 		}
+		
+		long startTimeNanos = System.nanoTime();
 
 		// begin aan het echte werk
 		int wAantalConfiguratiesVoorHuidigeDiepte;
 		int wAantalConfiguratiesOpVolgendeDiepte = wAantalConfiguraties_PerDiepte.get(wDiepte); // aantal nieuw gecreêerde configuraties (een counter)
-		String wHashHuidigeConfiguratie;
+		int wHashHuidigeConfiguratie;
 
 		int tAantalConfiguratiesVoorHuidigeDiepte;
 		int tAantalConfiguratiesOpVolgendeDiepte = tAantalConfiguraties_PerDiepte.get(wDiepte); // aantal nieuw gecreêerde configuraties (een counter)
-		String tHashHuidigeConfiguratie;
+		int tHashHuidigeConfiguratie;
 
-		while (wDiepte + tDiepte < 100 ) { // todo
+		//while (wDiepte + tDiepte < 200 ) { // todo
+		while ((long) (wTotalNanos + tTotalNanos) < (long) ((long)(maxRuntime) * 1000000000)) { // todo
+		
+		    System.out.println("wTotalNanos: " + wTotalNanos
+			                   + " --- wTotalVierkantNanos: " + wTotalVierkantNanos);
+			System.out.println("tTotalNanos: " + tTotalNanos);
+			
+			/**/
+			System.out.println("zoekboom diepte: " + wDiepte);
+			// --wortel
+			System.out.println("zoekboom wortel historiek aantal_keys: " + wHistoriek.keySet().size());
+			int wZoekboomSize = 0;
+			//String zoekboomSizes = "";
+			for (int key : wHistoriek.keySet()) {
+				wZoekboomSize = wZoekboomSize + wHistoriek.get(key).size();	// aantal configuraties met hashwaarde==key
+				//zoekboomSizes = zoekboomSizes + key + ": " + wZoekboomSize + " ";
+			}
+			//System.out.println("zoekboom wortel historiek groottes: " + zoekboomSizes);
+			System.out.println("zoekboom wortel historiek grootte: " + wZoekboomSize);
+			System.out.println("zoekboom wortel historiek loops: " + wLoops);
+			System.out.println("zoekboom wortel aantalVierkanten: " + aantalVierkanten);
+			System.out.println("zoekboom wortel aantal bladconfiguraties: " + wBladConfiguratiesFIFO.size());
+			// --top
+			System.out.println("zoekboom top historiek aantal_keys: " + tHistoriek.keySet().size());
+			int tZoekboomSize = 0;
+			for (int key : tHistoriek.keySet()) {
+				tZoekboomSize = tZoekboomSize + tHistoriek.get(key).size();	// aantal configuraties met hashwaarde==key
+			}
+			System.out.println("zoekboom top historiek grootte: " + tZoekboomSize);
+			System.out.println("zoekboom top historiek loops: " + tLoops);
+			System.out.println("zoekboom top aantal bladconfiguraties: " + tBladConfiguratiesFIFO.size());
+			/**/
+			
 			// temp:
 			System.out.println("WortelDiepte: " + wDiepte);
 			System.out.println("TopDiepte: " + tDiepte);
 
 			//
-			System.out.println("wortelAantalConfiguratiesVoorHuidigeDiepte: " + wAantalConfiguratiesOpVolgendeDiepte);
-			System.out.println("topAantalConfiguratiesVoorHuidigeDiepte: " + tAantalConfiguratiesOpVolgendeDiepte);
+			System.out.println("wortelAantalConfiguratiesVoorHuidigeDiepte: " + wAantalConfiguratiesOpVolgendeDiepte
+			                   + " --- vierkanten: " + aantalVierkanten
+							   + " --- aantalWortelConfiguratiesReedsInHistoriek: " + aantalWortelConfiguratiesReedsInHistoriek);
+			System.out.println("topAantalConfiguratiesVoorHuidigeDiepte: " + tAantalConfiguratiesOpVolgendeDiepte
+			                   + " --- aantalTopConfiguratiesReedsInHistoriek: " + aantalTopConfiguratiesReedsInHistoriek);
+			System.out.println("System.nanoTime();: " + (System.nanoTime() - startTimeNanos) );
 
 			// TODO:
 			if(wAantalConfiguratiesOpVolgendeDiepte < tAantalConfiguratiesOpVolgendeDiepte){
+			//if(wTotalNanos <= tTotalNanos){
 				wAantalConfiguratiesVoorHuidigeDiepte = wAantalConfiguratiesOpVolgendeDiepte;
 				wAantalConfiguratiesOpVolgendeDiepte = 0; // counter resetten
 				
 				System.out.println("wortelAantalConfiguratiesVoorHuidigeDiepte: " + wAantalConfiguratiesVoorHuidigeDiepte);
+				wStartNanos = System.nanoTime();
 
 				//
 				// --wortel
@@ -155,7 +213,7 @@ public class DubbeleZoekboom {
 					LinkedList<Configuratie> wKandidaatBladConfiguratieFIFO = new LinkedList<Configuratie>();
 
 					// temp:				
-					String wZoekboomNode = wHuidigeConfiguratie.zoekboomNode;
+					//String wZoekboomNode = wHuidigeConfiguratie.zoekboomNode;
 					// System.out.println("wHuidigeConfiguratie " + zoekboomNode + " (" + i + ") " + " heeft bladconfiguraties:");
 					int wBlad = 0;
 
@@ -165,10 +223,11 @@ public class DubbeleZoekboom {
 						Vak[] buren = vakOpEilandRand.getBuren();
 						for (int j = 0; j < buren.length; j++) {
 							Vak buur = buren[j]; // de 4 buren u,r,d,l overlopen
-							if (buur != null) {
-								if (wBlokken.contains(buur)) {
-									Vak blokKandidaat = buur.getBuren()[j];
+							if (buur != null) { // geen muur
+								if (wBlokken.contains(buur)) { // buur is een blok
+									Vak blokKandidaat = buur.getBuren()[j]; // buur van de buur, in dezelfde richting j
 									// todo
+									wStartVierkantNanos = System.nanoTime();;
 									boolean vierkantGedetecteerd = false;
 									if (blokKandidaat != null && !blokKandidaat.isEindvak() && blokKandidaat.ligtOpEindvakPad()) {
 										// geen eindvak, want op een eindvak mag een blok soms wel een vierkant vormen
@@ -197,43 +256,48 @@ public class DubbeleZoekboom {
 														System.out.println("ERROR: blokkade");
 													}
 													if (hoekPuntGemeenschappelijk == null || wBlokken.contains(hoekPuntGemeenschappelijk)) {
-														aantalVierkanten = aantalVierkanten + 1;
 														vierkantGedetecteerd = true;
 													}
 												}
 											}
 										}
 									}
+									wTotalVierkantNanos = wTotalVierkantNanos + (System.nanoTime() - wStartVierkantNanos);
 
 									// todo
 									if (vierkantGedetecteerd) {
+										aantalVierkanten = aantalVierkanten + 1;
 										// niks 
 									} else if (blokKandidaat != null && blokKandidaat.ligtOpEindvakPad() && !wBlokken.contains(blokKandidaat)) {
 										// de blok op "buur" een stap verder duwen
 										ArrayList<Vak> blokkenNew = (ArrayList<Vak>) wBlokken.clone(); // kopie van lijst, maar wel dezelfde elementen
 										blokkenNew.set(wBlokken.indexOf(buur), blokKandidaat); // blok verschuiven
 										//
-										int hashC = wHuidigeConfiguratie.hashC;
-										int hashR = wHuidigeConfiguratie.hashR;
+										//int hashC = wHuidigeConfiguratie.hashC;
+										//int hashR = wHuidigeConfiguratie.hashR;
+										int hashValue = wHuidigeConfiguratie.getHash();  // hashValue = hashC + hashR*hashBase + hashEiland*hashBase^2
 										switch (j) { // j is de richting van de blokverplaatsing
 										case 0:
-											hashR = hashR - 1;
+											//hashR = hashR - 1;
+											hashValue = hashValue - spel.getHashBase();
 											break;
 										case 1:
-											hashC = hashC + 1;
+											//hashC = hashC + 1;
+											hashValue = hashValue + 1;
 											break;
 										case 2:
-											hashR = hashR + 1;
+											//hashR = hashR + 1;
+											hashValue = hashValue + spel.getHashBase();
 											break;
 										case 3:
-											hashC = hashC - 1;
+											//hashC = hashC - 1;
+											hashValue = hashValue - 1;
 											break;
 										default:
 											break;
 										}									
 
-										Configuratie configuratieNew = new Configuratie(buur, blokkenNew, wHuidigeConfiguratie, wZoekboomNode + "." + wBlad,
-												hashC, hashR);
+										Configuratie configuratieNew = new Configuratie(buur, blokkenNew, wHuidigeConfiguratie, hashValue);
 
 										// temp:
 										// System.out.println("zoekboomNode: " + configuratieNew.zoekboomNode);
@@ -242,7 +306,7 @@ public class DubbeleZoekboom {
 										//
 										wKandidaatBladConfiguratieFIFO.add(configuratieNew);
 									}
-								} else if (!wSpelerEiland.contains(buur)) {
+								} else if (!wSpelerEiland.contains(buur)) { // buur is geen blok en geen muur
 									wSpelerEiland.add(buur);
 									if (!wTeCheckenEilandVakken.contains(buur)) {
 										wTeCheckenEilandVakken.push(buur);
@@ -258,13 +322,15 @@ public class DubbeleZoekboom {
 					// optimaliseren door een functie te gebruiken die een waarde geeft op basis van de posities van de blokken
 					// dit om sneller te kunnen failen en dus minder te moeten checken
 					// voorstel voor implementatie: totaal verticaal en totaal horizontaal van de blokken cumulatief bijhouden in Configuratie
-					boolean wReedsInHistoriek = false;				
+					boolean wReedsInHistoriek = false;
+					wHuidigeConfiguratie.setEilandHash(spel.getHashBase(), wSpelerEiland.size());
 					wHashHuidigeConfiguratie = wHuidigeConfiguratie.getHash();
 
 					if (wHistoriek.containsKey(wHashHuidigeConfiguratie)) {
 						for (Configuratie configuratieHistoric : (ArrayList<Configuratie>) wHistoriek.get(wHashHuidigeConfiguratie)) { // doorloop alle configuraties met dezelfde waarde voor wHashHuidigeConfiguratie
 							if (configuratieHistoric.equals(wHuidigeConfiguratie, wSpelerEiland)) {
 								wReedsInHistoriek = true;
+								aantalWortelConfiguratiesReedsInHistoriek = aantalWortelConfiguratiesReedsInHistoriek + 1;
 								break;
 							}
 						}
@@ -327,12 +393,15 @@ public class DubbeleZoekboom {
 				
 				wDiepte = wDiepte + 1;
 				wAantalConfiguraties_PerDiepte.add(wDiepte, wAantalConfiguratiesOpVolgendeDiepte);
+				
+				wTotalNanos = wTotalNanos + (System.nanoTime() - wStartNanos);
 
 			} else{
 				tAantalConfiguratiesVoorHuidigeDiepte = tAantalConfiguratiesOpVolgendeDiepte;
 				tAantalConfiguratiesOpVolgendeDiepte = 0; // counter resetten
 
 				System.out.println("topAantalConfiguratiesVoorHuidigeDiepte: " + tAantalConfiguratiesVoorHuidigeDiepte);
+				tStartNanos = System.nanoTime();
 				
 				//
 				// --top
@@ -351,7 +420,7 @@ public class DubbeleZoekboom {
 					LinkedList<Configuratie> tKandidaatBladConfiguratieFIFO = new LinkedList<Configuratie>();
 
 					// temp:				
-					String tZoekboomNode = tHuidigeConfiguratie.zoekboomNode;
+					//String tZoekboomNode = tHuidigeConfiguratie.zoekboomNode;
 					// System.out.println("tHuidigeConfiguratie " + zoekboomNode + " (" + i + ") " + " heeft bladconfiguraties:");
 					int tBlad = 0;
 
@@ -366,32 +435,36 @@ public class DubbeleZoekboom {
 									Vak spelerKandidaat = buren[(j+2) % 4];
 
 									// todo
-									if (spelerKandidaat != null && !tBlokken.contains(spelerKandidaat)) {
+									if (spelerKandidaat != null && !tBlokken.contains(spelerKandidaat) && vakOpEilandRand.ligtOpEindvakPad()) {
 										// de blok op "buur" een stap terug trekken
 										ArrayList<Vak> blokkenNew = (ArrayList<Vak>) tBlokken.clone(); // kopie van lijst, maar wel dezelfde elementen
 										blokkenNew.set(tBlokken.indexOf(buur), vakOpEilandRand); // blok verschuiven
 										//
-										int hashC = tHuidigeConfiguratie.hashC;
-										int hashR = tHuidigeConfiguratie.hashR;
+										//int hashC = tHuidigeConfiguratie.hashC;
+										//int hashR = tHuidigeConfiguratie.hashR;
+										int hashValue = tHuidigeConfiguratie.getHash();  // hashValue = hashC + hashR*hashBase + hashEiland*hashBase^2
 										switch ((j+2) % 4) { // (j+2) % 4 is de richting van de blokverplaatsing
 										case 0:
-											hashR = hashR - 1;
+											//hashR = hashR - 1;
+											hashValue = hashValue - spel.getHashBase();
 											break;
 										case 1:
-											hashC = hashC + 1;
+											//hashC = hashC + 1;
+											hashValue = hashValue + 1;
 											break;
 										case 2:
-											hashR = hashR + 1;
+											//hashR = hashR + 1;
+											hashValue = hashValue + spel.getHashBase();
 											break;
 										case 3:
-											hashC = hashC - 1;
+											//hashC = hashC - 1;
+											hashValue = hashValue - 1;
 											break;
 										default:
 											break;
 										}									
 
-										Configuratie configuratieNew = new Configuratie(spelerKandidaat, blokkenNew, tHuidigeConfiguratie, tZoekboomNode + "." + tBlad,
-												hashC, hashR);
+										Configuratie configuratieNew = new Configuratie(spelerKandidaat, blokkenNew, tHuidigeConfiguratie, hashValue);
 
 										// temp:
 										// System.out.println("zoekboomNode: " + configuratieNew.zoekboomNode);
@@ -416,13 +489,15 @@ public class DubbeleZoekboom {
 					// optimaliseren door een functie te gebruiken die een waarde geeft op basis van de posities van de blokken
 					// dit om sneller te kunnen failen en dus minder te moeten checken
 					// voorstel voor implementatie: totaal verticaal en totaal horizontaal van de blokken cumulatief bijhouden in Configuratie
-					boolean tReedsInHistoriek = false;				
+					boolean tReedsInHistoriek = false;
+					tHuidigeConfiguratie.setEilandHash(spel.getHashBase(), tSpelerEiland.size());					
 					tHashHuidigeConfiguratie = tHuidigeConfiguratie.getHash();
 
 					if (tHistoriek.containsKey(tHashHuidigeConfiguratie)) {
 						for (Configuratie configuratieHistoric : (ArrayList<Configuratie>) tHistoriek.get(tHashHuidigeConfiguratie)) { // doorloop alle configuraties met dezelfde waarde voor tHashHuidigeConfiguratie
 							if (configuratieHistoric.equals(tHuidigeConfiguratie, tSpelerEiland)) {
 								tReedsInHistoriek = true;
+								aantalTopConfiguratiesReedsInHistoriek = aantalTopConfiguratiesReedsInHistoriek + 1;
 								break;
 							}
 						}
@@ -486,8 +561,12 @@ public class DubbeleZoekboom {
 
 				tDiepte = tDiepte + 1;
 				tAantalConfiguraties_PerDiepte.add(tDiepte, tAantalConfiguratiesOpVolgendeDiepte);
+				
+				tTotalNanos = tTotalNanos + (System.nanoTime() - tStartNanos);
 			}			
 		}
+		
+		System.out.println("Geen oplossing gevonden in " + maxRuntime + " seconden.");
 
 	}
 	// als aantal bladVelden > GRENS of boom_diepte > GRENS, doe dan extra checks om bladvelden te elimineren;

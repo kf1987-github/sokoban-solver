@@ -1,0 +1,14 @@
+## test
+java -cp bin Solver level.txt
+
+## solve all auto52 levels, allowing maximum 10 seconds to each level
+for I in levelsets/auto52/*.txt; do java -cp bin Solver $I 10 >> auto52_solutions.txt; done
+
+## find solution times
+grep "Tijd" auto52_solutions.txt
+
+## solve all handmade levels, allocating 1600 MB and 300 seconds to solve to each level
+for I in levelsets/handmade/*.txt; do echo $I; java -Xmx1600m -cp bin Solver $I 300 >> handmade_solutions.txt; done
+
+## find solution times and levels without a solution found, within the time and memory constraints
+cat handmade_solutions.txt |grep -E "soko|Tijd|Geen"

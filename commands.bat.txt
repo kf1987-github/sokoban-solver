@@ -1,0 +1,8 @@
+## test
+java -cp bin Solver level.txt
+
+## solve all auto52 levels, under 10 seconds each
+for %I in (levelsets\auto52\*.txt) do (java -cp bin Solver %I 10 && echo.) >> auto52_solutions.txt
+
+## find solution times
+find "Tijd" auto52_solutions.txt

@@ -10,6 +10,9 @@ public class Spel {
 
 	private int ROWS;
 	private int COLS;
+	
+	// hashBase = max(rows,columns,blokken)^2 > rows*blokken, columns*blokken, rows*columns > hashC, hashR, hashEiland
+	private int hashBase;
 
 	private Vak[][] vakken;
 	private ArrayList<Vak> blokken = new ArrayList<Vak>();
@@ -23,6 +26,15 @@ public class Spel {
 	// vakkenOpEindvakPad_PerEindvak.get(i).get(0) == i-de eindvak
 	private ArrayList<Vak> vakkenOpEindvakPad = new ArrayList<Vak>(); // alle vakken vanwaar blokken een eindvakPad hebben
 
+	public int getRows(){
+		return ROWS;
+	}
+	public int getCols(){
+		return COLS;
+	}
+	public int getHashBase(){
+		return hashBase;
+	}
 	public ArrayList<Vak> getBlokken() {
 		return blokken;
 	}
@@ -44,6 +56,8 @@ public class Spel {
 		maakBuurRelatiesEnVerwijderBuitenVakken();
 		maakVakkenOpEindvakPad_PerEindvak();
 		maakVakkenOpEindvakPad();
+		
+		this.hashBase = (int) Math.pow(Math.max(Math.max(getRows(), getCols()), getBlokken().size()),2);
 		
 		output = this;
 	}

@@ -10,24 +10,41 @@ public class Configuratie {
 	private Configuratie vorig;
 
 	// temp:
-	String zoekboomNode;
-	int hashC;	// waarden om sneller te checken of twee configuraties dezelfde zijn;
-	int hashR;	// dus public boolean equals(Configuratie configuratie, ArrayList<Vak> spelerEiland) sneller maken
+	//int hashC;	// waarden om sneller te checken of twee configuraties dezelfde zijn;
+	//int hashR;	// dus public boolean equals(Configuratie configuratie, ArrayList<Vak> spelerEiland) sneller maken
+	//int hashEiland; // grootte van spelereiland
+	private int hashValue;  // hashValue = hashC + hashR*hashBase + hashEiland*hashBase^2
+	                        // with hashBase = max(rows,columns,blokken)^2 > rows*blokken, columns*blokken, rows*columns > hashC, hashR, hashEiland
 
-	public Configuratie(Vak speler, ArrayList<Vak> blokken, Configuratie vorig, String zoekboomNode, int hashC, int hashR) {
+	public Configuratie(Vak speler, ArrayList<Vak> blokken, Configuratie vorig, int hashValue) {
 		this.speler = speler;
 		this.blokken = blokken;
 		this.vorig = vorig;
 
 		// temp:
-		this.zoekboomNode = zoekboomNode;
-		this.hashC = hashC;
-		this.hashR = hashR;
+		//this.hashC = hashC;
+		//this.hashR = hashR;
+		this.hashValue = hashValue;
+	}
+	
+	//public int getHashC(int hashBase){
+	//	return hashValue % hashBase;
+	//}
+	//public int getHashR(int hashBase){
+	//	return (hashValue / hashBase) % hashBase;
+	//}
+	//public int getHashEiland(int hashBase){
+	//	return hashValue % (hashBase * hashBase);
+	//}
+	
+	// set grootte van spelereiland
+	public void setEilandHash(int hashBase, int eilandHash){
+		hashValue = hashValue + (eilandHash*(hashBase*hashBase));
 	}
 	
 	// hash als een String
-	public String getHash(){
-		return hashC + "." + hashR;
+	public int getHash(){
+		return hashValue;
 	}
 
 	// equal als en slechts als
@@ -35,10 +52,15 @@ public class Configuratie {
 	// (de eilandenstructuur is gelijk voor beide configuraties zodra de blokkenconfiguraties dezelfde zijn)
 	public boolean equals(Configuratie configuratie, ArrayList<Vak> spelerEiland) {
 		//
-		if(!(hashC == configuratie.hashC && hashR == configuratie.hashR)){
+		//if(this.getHashC() != configuratie.getHashC() || this.getHashR() != configuratie.getHashR()){
+		//	return false;
+		//}
+		//if(spelerEiland.size() != this.getHashEiland()){
+		//	return false;
+		//}
+		if(this.getHash() != configuratie.getHash()){
 			return false;
 		}
-		
 		if (!blokken.containsAll(configuratie.getBlokken())) { // als subset, dan gelijk, want zelfde kardinaliteit
 			return false;
 		}
