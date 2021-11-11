@@ -1,0 +1,6 @@
+-tested code
+-usage instructions
+-algorithm outline
+-example
+-solutions to some levels
+-hash function returns a String obtained by concatenation of the sum of rows of the boxes, a dot and the sum of columns of the boxes

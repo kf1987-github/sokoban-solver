@@ -1,0 +1,6 @@
+-improved hash function returns an integer:
+  uniquely combining the sum of rows of boxes, the sum of columns of boxes and the number of free fields in the sokoban island
+-adapted Configuration constructor
+-added some additional timekeeping
+-added optional 2nd argument to Solver, for setting a time limit in seconds
+-additional check when traversing candidates for top configurations in DubbeleZoekboom (may be redundant)
